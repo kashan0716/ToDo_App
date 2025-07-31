@@ -34,7 +34,7 @@ export default function Home() {
   // Function to delete a task
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://todo-3u45.onrender.com${id}`);
+      await axios.delete(`https://todo-3u45.onrender.com`);
       setTodos(todos.filter((todo) => todo._id !== id));
       toast.success("Task deleted successfully!");
     } catch (error) {
