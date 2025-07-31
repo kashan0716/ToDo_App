@@ -11,7 +11,7 @@ export default function Form({ setTodos, loadTasks }) {
     if (!task.trim()) return;
 
     try {
-      const res = await axios.post("srv-d25ntk6r433s73ebhdgg", {
+      const res = await axios.post("https://todo-3u45.onrender.com", {
         task,
       });
       loadTasks();
