@@ -1,4 +1,4 @@
-import Home from "./Components/Home";
+import Home from "./components/Home";
 import { ToastContainer } from "react-toastify";
 export default function App() {
   return (

@@ -5,7 +5,6 @@ import { IoMdAdd } from "react-icons/io";
 
 export default function Form({ setTodos, loadTasks }) {
   const [task, setTask] = useState("");
-  // const [message, setMessage] = useState({ type: "", text: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

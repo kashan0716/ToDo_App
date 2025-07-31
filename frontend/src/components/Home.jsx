@@ -47,40 +47,6 @@ export default function Home() {
     setTaskId(id);
   };
 
-  // const handleUpdateTask = async (id, status) => {
-  //   // Optimistically update UI first
-
-  //   setTodos((prevTodos) =>
-  //     prevTodos.map((todo) =>
-  //       todo._id === id ? { ...todo, taskStatus: !status } : todo
-  //     )
-  //   );
-
-  //   try {
-  //     const res = await axios.put(http://localhost:3000/api/task/${id}, {
-  //       taskStatus: !status,
-  //       task: updatedTask,
-  //     });
-  //     toast.success("Task status updated!");
-  //     setOpenPopUp(!openPopUp);
-  //   } catch (error) {
-  //     toast.error("Failed to update task.");
-  //     setOpenPopUp(!openPopUp);
-
-  //     console.error(error);
-
-  //     // Rollback UI in case of error
-  //     setTodos((prevTodos) =>
-  //       prevTodos.map((todo) =>
-  //         todo._id === id ? { ...todo, taskStatus: status } : todo
-  //       )
-  //     );
-  //   }
-  // };
-
-  // const handlePopUp=(id)=>{
-
-  // }
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center p-6">
       <div className="bg-gray-100 shadow-lg rounded-xl p-8 w-full max-w-md">
