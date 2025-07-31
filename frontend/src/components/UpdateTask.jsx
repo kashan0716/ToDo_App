@@ -10,7 +10,7 @@ export default function UpdateTask({ task, id, setTodos, setOpenPopUp }) {
     e.preventDefault(); // prevent page refresh
 
     try {
-      const res = await axios.put(`https://todo-3u45.onrender.com`, {
+      const res = await axios.put(`http://localhost:3000/api/task/${id}`, {
         task: updatedTask,
         taskStatus: status,
       });

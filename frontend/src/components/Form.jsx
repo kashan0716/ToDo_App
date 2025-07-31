@@ -5,13 +5,14 @@ import { IoMdAdd } from "react-icons/io";
 
 export default function Form({ setTodos, loadTasks }) {
   const [task, setTask] = useState("");
+  // const [message, setMessage] = useState({ type: "", text: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!task.trim()) return;
 
     try {
-      const res = await axios.post("https://todo-3u45.onrender.com", {
+      const res = await axios.post("http://localhost:3000/api/task/add", {
         task,
       });
       loadTasks();
