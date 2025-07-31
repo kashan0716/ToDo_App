@@ -18,7 +18,7 @@ export default function Home() {
   // Load tasks from API
   const loadTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/task/get");
+      const res = await axios.get("srv-d25ntk6r433s73ebhdgg");
       setTodos(res.data);
       // toast.success("Tasks loaded successfully!");
     } catch (error) {
@@ -34,7 +34,7 @@ export default function Home() {
   // Function to delete a task
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/task/${id}`);
+      await axios.delete(`srv-d25ntk6r433s73ebhdgg${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
       toast.success("Task deleted successfully!");
     } catch (error) {

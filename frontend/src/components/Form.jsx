@@ -11,7 +11,7 @@ export default function Form({ setTodos, loadTasks }) {
     if (!task.trim()) return;
 
     try {
-      const res = await axios.post("http://localhost:3000/api/task/add", {
+      const res = await axios.post("srv-d25ntk6r433s73ebhdgg", {
         task,
       });
       loadTasks();
