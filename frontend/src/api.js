@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 🔹 Centralized backend URL
-export const BACKEND_URL = "http://localhost:3000/api";
+export const BACKEND_URL = "https://todo-app-backend-zz4a.onrender.com";
 
 // Axios instance
 const API = axios.create({
