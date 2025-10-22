@@ -1,40 +1,36 @@
 import { useEffect, useState } from "react";
-import Form from "./Form";
-import axios from "axios";
+import Form from "../components/Form";
+import UpdateTask from "../components/UpdateTask";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import UpdateTask from "./UpdateTask";
 import { ImCross } from "react-icons/im";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { getTasks, deleteTask } from "../api";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
-  const [load, setLoad] = useState(false);
-  const [updatedTask, setUpdatedTask] = useState();
-  const [taskId, setTaskId] = useState();
-
   const [openPopUp, setOpenPopUp] = useState(false);
+  const [taskId, setTaskId] = useState();
+  const [updatedTask, setUpdatedTask] = useState();
 
   // Load tasks from API
   const loadTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/task/get");
+      const res = await getTasks();
       setTodos(res.data);
-      // toast.success("Tasks loaded successfully!");
     } catch (error) {
-      toast.error("Failed to load tasks. Try again.");
+      toast.error("Failed to load tasks.");
       console.error(error);
     }
   };
 
   useEffect(() => {
     loadTasks();
-  }, [setTodos]);
+  }, []);
 
-  // Function to delete a task
+  // Delete a task
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/task/${id}`);
+      await deleteTask(id);
       setTodos(todos.filter((todo) => todo._id !== id));
       toast.success("Task deleted successfully!");
     } catch (error) {
@@ -42,68 +38,76 @@ export default function Home() {
       console.error(error);
     }
   };
-  const handleUpadateTask = (id) => {
+
+  // Toggle update popup
+  const handleUpdatePopup = (id) => {
     setOpenPopUp(!openPopUp);
     setTaskId(id);
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center p-6">
-      <div className="bg-gray-100 shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h2 className="text-4xl font-bold text-gray-900 text-center mb-4">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-start py-6 px-4 sm:px-6">
+      <div className="w-full max-w-2xl">
+        {/* Header */}
+        <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-6">
           📝 Todo List
         </h2>
 
-        {/* Form Component */}
-        <Form setTodos={setTodos} setLoad={setLoad} loadTasks={loadTasks} />
+        {/* Form */}
+        <Form setTodos={setTodos} loadTasks={loadTasks} />
+
         {/* Todo List */}
-        <div className="mt-6">
+        <div className="mt-6 space-y-4">
           {todos.length === 0 ? (
-            <div className="text-gray-600 text-center p-6 bg-gray-300 rounded-xl">
-              <p className="text-lg">📭 No Tasks Added Yet!</p>
-              <p className="text-sm">Start By Adding A New Task Above.</p>
+            <div className="text-gray-600 text-center p-6 bg-gray-300 rounded-2xl shadow-md">
+              <p className="text-lg sm:text-xl">📭 No Tasks Added Yet!</p>
+              <p className="text-sm sm:text-base mt-1">
+                Start by adding a new task above.
+              </p>
             </div>
           ) : (
             <ul className="space-y-3">
               {todos.map((todo, index) => (
                 <li
                   key={todo._id || index}
-                  className="bg-blue-200 text-blue-900 p-3 rounded-xl shadow-lg flex items-center justify-between"
+                  className="bg-white shadow-md rounded-2xl p-4 sm:p-5 flex flex-row items-center justify-between transition-all hover:shadow-lg"
                 >
-                  <div className="flex items-center space-x-2">
-                    <span
-                      className={`${
-                        todo.taskStatus ? "line-through text-gray-600" : ""
-                      }`}
-                    >
-                      {todo.task}
-                    </span>
+                  {/* Task Text */}
+                  <span
+                    className={`text-gray-800 text-base sm:text-lg break-words flex-1 ${
+                      todo.taskStatus ? "line-through text-gray-400" : ""
+                    }`}
+                  >
+                    {todo.task}
+                  </span>
 
-                    {openPopUp && taskId == todo._id && (
-                      <UpdateTask
-                        setUpdatedTask={setUpdatedTask}
-                        task={todo.task}
-                        id={todo._id}
-                        setOpenPopUp={setOpenPopUp}
-                        setTodos={setTodos}
-                        taskStatus={todo.taskStatus}
-                      />
-                    )}
-                  </div>
-                  <div className="flex gap-4">
+                  {/* Action Buttons */}
+                  <div className="flex flex-row gap-3 ml-4 flex-shrink-0">
                     <button
                       onClick={() => handleDelete(todo._id)}
-                      className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                      className="text-red-600 hover:text-red-800 transition-colors"
                     >
-                      <ImCross size={18} />
+                      <ImCross size={20} />
                     </button>
                     <button
-                      onClick={() => handleUpadateTask(todo._id)}
-                      className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                      onClick={() => handleUpdatePopup(todo._id)}
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
                     >
                       <MdCheckBoxOutlineBlank size={25} />
                     </button>
                   </div>
+
+                  {/* Update Modal */}
+                  {openPopUp && taskId === todo._id && (
+                    <UpdateTask
+                      task={todo.task}
+                      id={todo._id}
+                      setOpenPopUp={setOpenPopUp}
+                      setTodos={setTodos}
+                      setUpdatedTask={setUpdatedTask}
+                      taskStatus={todo.taskStatus}
+                    />
+                  )}
                 </li>
               ))}
             </ul>
